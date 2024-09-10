@@ -1,0 +1,1 @@
+import{V as e}from"./1JpoQThl.js";import{d as s,O as r,P as o,R as t,M as l,Q as n}from"./3w4k60lH.js";const _=s({__name:"VTag",props:{href:{}},setup(p){return(a,i)=>(l(),r(e,t({as:"VLink",size:"small",variant:"filled-gray",class:"label-bold"},a.$props),{default:o(()=>[n(a.$slots,"default")]),_:3},16))}});export{_};
