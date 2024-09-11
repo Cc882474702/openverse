@@ -17,7 +17,7 @@ export const expectSnapshot = async (
   locator: Locator | Page,
   options?: ExpectSnapshotOptions
 ) => {
-  const snapshotName = `${name}.png`
+  const snapshotName = `${name}-light.png`
   return expect(
     await locator.screenshot(options?.screenshotOptions)
   ).toMatchSnapshot(snapshotName, options?.snapshotOptions)
