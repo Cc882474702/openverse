@@ -1,4 +1,11 @@
-import { test, expect, Expect } from "@playwright/test"
+import { test, expect, Expect, Page } from "@playwright/test"
+
+import type { LanguageDirection } from "~~/test/playwright/utils/i18n"
+
+import {
+  setThemeSwitcherVisibility,
+  turnOnDarkMode,
+} from "~~/test/playwright/utils/theme-switcher"
 
 import { VIEWPORTS } from "~/constants/screens"
 import type { Breakpoint } from "~/constants/screens"
@@ -9,16 +16,19 @@ type ScreenshotAble = {
 }
 
 type ExpectSnapshot = <T extends ScreenshotAble>(
+  page: Page,
   name: string,
   s: T,
-  options?: Parameters<T["screenshot"]>[0],
-  snapshotOptions?: Parameters<ReturnType<Expect>["toMatchSnapshot"]>[0]
+  config?: {
+    dir?: LanguageDirection
+    options?: Parameters<T["screenshot"]>[0]
+    snapshotOptions?: Parameters<ReturnType<Expect>["toMatchSnapshot"]>[0]
+  }
 ) => Promise<Buffer | void>
 
+type EffectiveColorMode = "dark" | "light"
+
 type BreakpointBlock = (options: {
-  getConfigValues: (name: string) => {
-    name: `${typeof name}-${Breakpoint}-light.png`
-  }
   breakpoint: Breakpoint
   expectSnapshot: ExpectSnapshot
 }) => void
@@ -87,26 +97,38 @@ const makeBreakpointDescribe =
         userAgent: options.uaMocking ? mockUaStrings[breakpoint] : undefined,
       })
 
-      const getConfigValues = (name: string) => ({
-        name: `${name}-${breakpoint}-light.png` as const,
-      })
+      const getSnapshotName = (
+        name: string,
+        colorMode: EffectiveColorMode = "light",
+        dir?: LanguageDirection
+      ) => {
+        const dirString = dir ? `-${dir}` : ""
+        return `${name}${dirString}-${breakpoint}-${colorMode}.png` as const
+      }
 
       const expectSnapshot = async <T extends ScreenshotAble>(
+        page: Page,
         name: string,
         screenshotAble: T,
-        options?: Parameters<T["screenshot"]>[0],
-        snapshotOptions?: Parameters<ReturnType<Expect>["toMatchSnapshot"]>[0]
+        { dir, options, snapshotOptions }: Parameters<ExpectSnapshot>[3] = {}
       ) => {
-        const { name: snapshotName } = getConfigValues(name)
-        return expect(await screenshotAble.screenshot(options)).toMatchSnapshot(
+        await setThemeSwitcherVisibility(page, "hidden")
+        expect.soft(await screenshotAble.screenshot(options)).toMatchSnapshot({
+          name: getSnapshotName(name, "light", dir),
+          ...snapshotOptions,
+        })
+
+        await turnOnDarkMode(page, dir ?? "ltr")
+
+        return expect.soft(await screenshotAble.screenshot(options)).toMatchSnapshot(
           {
-            name: snapshotName,
+            name: getSnapshotName(name, "dark", dir),
             ...snapshotOptions,
           }
         )
       }
 
-      _block({ breakpoint, getConfigValues, expectSnapshot })
+      _block({ breakpoint, expectSnapshot })
     })
   }
 

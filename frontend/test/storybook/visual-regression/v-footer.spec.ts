@@ -29,8 +29,10 @@ test.describe("VFooter", () => {
           await expect(page.getByRole("combobox").nth(0)).toBeEnabled()
 
           await expectSnapshot(
-            `footer-${footerKind}-${dir}`,
-            page.locator("footer")
+            page,
+            `footer-${footerKind}`,
+            page.locator("footer"),
+            { dir }
           )
         })
       })

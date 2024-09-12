@@ -3,6 +3,8 @@ import { h } from "vue"
 import { buttonForms, buttonSizes, buttonVariants } from "~/types/button"
 import { capitalCase } from "~/utils/case"
 
+import { WithScreenshotArea } from "~~/.storybook/decorators/with-screenshot-area"
+
 import VButton from "~/components/VButton.vue"
 import VIcon from "~/components/VIcon/VIcon.vue"
 
@@ -21,6 +23,7 @@ export default {
     viewport: {
       defaultViewport: "sm",
     },
+    decorators: [WithScreenshotArea],
   },
   args: {
     size: "medium",

@@ -19,19 +19,31 @@ test.describe("VButton", () => {
   for (const variant of nonPressedVariants) {
     test(`${variant} resting`, async ({ page }) => {
       await gotoWithArgs(page, { variant })
-      await expectSnapshot(`${variant}-resting`, page.locator(wrapperLocator))
+      await expectSnapshot(
+        page,
+        `${variant}-resting`,
+        page.locator(wrapperLocator)
+      )
     })
 
     test(`${variant} hovered`, async ({ page }) => {
       await gotoWithArgs(page, { variant })
       await page.hover(buttonLocator)
-      await expectSnapshot(`${variant}-hovered`, page.locator(wrapperLocator))
+      await expectSnapshot(
+        page,
+        `${variant}-hovered`,
+        page.locator(wrapperLocator)
+      )
     })
 
     test(`${variant} focused`, async ({ page }) => {
       await gotoWithArgs(page, { variant })
       await page.focus(buttonLocator)
-      await expectSnapshot(`${variant}-focused`, page.locator(wrapperLocator))
+      await expectSnapshot(
+        page,
+        `${variant}-focused`,
+        page.locator(wrapperLocator)
+      )
     })
 
     test(`${variant} focused hovered`, async ({ page }) => {
@@ -39,6 +51,7 @@ test.describe("VButton", () => {
       await page.focus(buttonLocator)
       await page.hover(buttonLocator)
       await expectSnapshot(
+        page,
         `${variant}-focused-hovered`,
         page.locator(wrapperLocator)
       )

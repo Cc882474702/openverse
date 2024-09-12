@@ -54,6 +54,7 @@ test.describe("VFilterTab", () => {
       await focusFiltersTab(page)
 
       await expectSnapshot(
+        page,
         `filter-tab-focused-${appliedFilterCount}`,
         page.locator(wrapper)
       )
@@ -67,6 +68,7 @@ test.describe("VFilterTab", () => {
       await hoverFiltersTab(page)
 
       await expectSnapshot(
+        page,
         `filter-tab-focused-hovered-${appliedFilterCount}`,
         page.locator(wrapper)
       )
@@ -80,6 +82,7 @@ test.describe("VFilterTab", () => {
         await goAndWaitForSvg(page, { appliedFilterCount, isSelected })
 
         await expectSnapshot(
+          page,
           `filter-tab-resting-${selected}-${appliedFilterCount}`,
           page.locator(wrapper)
         )
@@ -92,6 +95,7 @@ test.describe("VFilterTab", () => {
         await hoverFiltersTab(page)
 
         await expectSnapshot(
+          page,
           `filter-tab-hovered-${selected}-${appliedFilterCount}`,
           page.locator(wrapper)
         )

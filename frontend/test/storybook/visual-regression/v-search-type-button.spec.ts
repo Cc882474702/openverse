@@ -38,6 +38,7 @@ test.describe("VSearchTypeButton", () => {
         await goAndWaitForSvg(page, url)
 
         await expectSnapshot(
+          page,
           `${snapshotName}-at-rest`,
           getSearchTypeButton(page)
         )
@@ -49,6 +50,7 @@ test.describe("VSearchTypeButton", () => {
         await getSearchTypeButton(page).hover()
 
         await expectSnapshot(
+          page,
           `${snapshotName}-hovered`,
           getSearchTypeButton(page)
         )

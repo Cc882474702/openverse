@@ -12,6 +12,7 @@ test.describe("VIconButton", () => {
     await expect(page.getByRole("button")).toHaveCount(3)
     await expect(page.getByRole("button").nth(0)).toBeEnabled()
     await expectSnapshot(
+      page,
       "v-icon-button-sizes",
       page.locator(".screenshot-area")
     )

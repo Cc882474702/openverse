@@ -13,6 +13,7 @@ test.describe("VCollectionHeader", () => {
           `/iframe.html?id=components-vcollectionheader--all-collections${dirParam(dir)}`
         )
         await expectSnapshot(
+          page,
           `VCollectionHeaders-${dir}`,
           page.locator(".wrapper")
         )

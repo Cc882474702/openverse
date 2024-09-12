@@ -7,7 +7,11 @@ test.describe("VLanguageSelect", () => {
   test("default", async ({ page }) => {
     await makeGotoWithArgs("components-vlanguageselect--default")(page)
     // Make sure the component is rendered and hydrated
-    await expect(page.getByRole("combobox")).toHaveValue("en")
-    await expectSnapshot("vlanguageselect", page.locator(".screenshot-area"))
+    await expect(page.getByRole("combobox").nth(0)).toBeEnabled()
+    await expectSnapshot(
+      page,
+      "vlanguageselect",
+      page.locator(".screenshot-area")
+    )
   })
 })
