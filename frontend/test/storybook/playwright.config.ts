@@ -1,8 +1,6 @@
-import type { PlaywrightTestConfig } from "@playwright/test"
+import { defineConfig } from "@playwright/test"
 
-const config: PlaywrightTestConfig = {
-  snapshotPathTemplate:
-    "visual-regression/{testFileName}-snapshots/{arg}-linux.png",
+export default defineConfig({
   forbidOnly: !!process.env.CI,
   webServer: {
     command: "pnpm prod:storybook",
@@ -15,12 +13,4 @@ const config: PlaywrightTestConfig = {
     trace: "retain-on-failure",
   },
   timeout: 60 * 1e3, // 1 minute
-  expect: {
-    toMatchSnapshot: {
-      // To avoid flaky tests, we allow a small amount of pixel difference.
-      maxDiffPixelRatio: 0.01,
-    },
-  },
-}
-
-export default config
+})
