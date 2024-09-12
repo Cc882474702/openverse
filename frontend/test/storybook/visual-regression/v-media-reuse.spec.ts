@@ -37,7 +37,7 @@ test.describe("VMediaReuse", () => {
           await sleep(500)
 
           await expectSnapshot(
-            `media-reuse-${dir}-${tab.id}-tab`,
+            `media-reuse-${tab.id}-tab-${dir}`,
             page.locator(".media-reuse")
           )
         })
